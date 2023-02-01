@@ -1,0 +1,61 @@
+@import "../../../styles/constants.scss";
+
+.schedule-wrapper {
+  overflow-x: auto;
+}
+
+.fc-event {
+  cursor: pointer;
+}
+
+.adjacent {
+  width: fit-content;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+
+.calendar-width {
+  width: 350px;
+}
+
+.fc-event-title,
+.fc-event-time {
+  font-size: 0.7em !important;
+}
+
+.calendar-title {
+  padding-top: $spacing;
+  padding-bottom: $spacing;
+}
+
+$header-offset: 8;
+
+.schedule-header-row {
+  margin-left: -$header-offset * $spacing;
+  padding-left: $header-offset * $spacing;
+  margin-right: -$header-offset * $spacing;
+  padding-right: $header-offset * $spacing;
+  margin-top: $spacing;
+  background-color: $bg-header;
+}
+
+.schedule-time-axis-wrapper {
+  display: flex;
+  flex-direction: row;
+}
+
+.time-slot {
+  display: flex;
+  justify-content: flex-end;
+  height: 50px; // TODO: Calculate or use constant?
+  padding-right: 0.5 * $spacing;
+}
+
+.left-time-axis {
+  background-color: $bg-header;
+  display: flex;
+  flex-direction: column;
+  width: 6 * $spacing;
+  padding-top: 28px; // Offset for the day headers
+}

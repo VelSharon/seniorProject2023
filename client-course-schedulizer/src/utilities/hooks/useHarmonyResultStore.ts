@@ -1,0 +1,71 @@
+import { Result } from "@harmoniously/react";
+import { Day, Schedule, SemesterLength, Term } from "utilities/interfaces";
+import create, { GetState, SetState, State } from "zustand";
+
+/** Store the Harmony results */
+export const useHarmonyResultStore = create<HarmonyResultState>(
+  (set: SetState<HarmonyResultState>, get: GetState<HarmonyResultState>) => {
+    return {
+      result: {},
+      schedule: { courses: [], numDistinctSchedules: 0 },
+      setResult: (res: Result) => {
+        set({ result: res, schedule: convertToSchedule(res) });
+      },
+    };
+  },
+);
+
+export interface HarmonyResultState extends State {
+  result: Result;
+  schedule: Schedule;
+  setResult: (result: Result) => void;
+}
+
+/** Convert the assignments to a schedule object. */
+const convertToSchedule = (result: Result): Schedule => {
+  const schedule: Schedule = { courses: [], numDistinctSchedules: 0 }; 
+  if (result !== undefined) {
+    Object.keys(result).forEach((course) => {
+      // TODO update this.
+      const [prefix, number, letter] = course.split("-");
+      const courseObject = result[course];
+      const { professor, time, room } = courseObject;
+      const [building, roomNumber] = room.split(" ");
+
+      schedule.courses.push({
+        department: "",
+        importRank: 0,
+        name: "",
+        number,
+        prefixes: [prefix],
+        sections: [
+          {
+            comments: "",
+            endDate: "1/1/21",
+            facultyHours: 3,
+            instructionalMethod: "",
+            instructors: [professor],
+            letter,
+            meetings: [
+              {
+                days: [Day.Monday, Day.Wednesday, Day.Friday],
+                duration: 50,
+                location: { building, roomNumber },
+                startTime: time,
+              },
+            ],
+            semesterLength: SemesterLength.Full,
+            startDate: "01/01/21",
+            status: "",
+            studentHours: 3,
+            term: Term.Fall,
+            termStart: "01/01/21",
+            year: 2021,
+          },
+        ],
+      });
+    });
+  }
+
+  return schedule;
+};
